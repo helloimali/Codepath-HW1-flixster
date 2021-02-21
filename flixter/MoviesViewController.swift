@@ -7,6 +7,10 @@
 
 import UIKit
 //Step 1, add UITableViewDataSource, UITableViewDelegate
+
+//After doing pod init, pod AlamofireImage, pod install
+import AlamofireImage
+
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     //Step 2, have these 2 functions [see below]
@@ -85,6 +89,18 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         cell.synopsisLbl.text = summary
         //why ? or !
         // Swift
+        
+        //movie poster
+        let baseURL = "https://image.tmdb.org/t/p/w185"
+        let posterPath = movie["poster_path"] as! String
+        
+        //URL() Validates URL
+        let posterURL = URL(string: baseURL + posterPath)
+        
+        //takes care of downloading and setting image
+        cell.posterView.af_setImage(withURL: posterURL!)
+        // '?' are about optionals
+        
         return cell
     }
     
