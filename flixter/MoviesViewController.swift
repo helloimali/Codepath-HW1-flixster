@@ -29,7 +29,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         // Do any additional setup after loading the view.
     
-        print("HELLO")
+        //print("HELLO")
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
@@ -66,15 +66,23 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Returns cell
-        let cell = UITableViewCell()
+        //let cell = UITableViewCell()
+        // Instead we use this
+        // Why? Because we like saving memory.
+        // If another cell is off screen, then lets recycle a cell.
+        // Else, new cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell") as! MovieCell
         
         // movies[index]
         let movie = movies[indexPath.row]
         let title = movie["title"] as! String
+        let summary = movie["overview"] as! String
         
         // \() is throwing in a variable
         //cell.textLabel!.text = "row: \(indexPath.row)"
-        cell.textLabel!.text = title
+        //cell.textLabel!.text = title
+        cell.titleLbl.text = title
+        cell.synopsisLbl.text = summary
         //why ? or !
         // Swift
         return cell
